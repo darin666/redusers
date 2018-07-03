@@ -1,9 +1,10 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const redis = require('redis');
+
+const append = require('./append.js');
 
 // Create Redis Client
 let client = redis.createClient();
@@ -79,16 +80,7 @@ app.post('/user/add', (req, res, next) => {
     });
 
     // appending JSON data
-    fs.appendFile('message.json', JSON.stringify(req.body), (err) => {
-        if (err) throw err;
-        console.log('Data were appended to a file.');
-    });
-
-    // separator added
-    fs.appendFile('message.json', ',', (err) => {
-        if (err) throw err;
-    });
-
+    append.appendData();
 });
 
 // Delete user
