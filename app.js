@@ -80,7 +80,7 @@ app.post('/user/add', (req, res, next) => {
     });
 
     // appending JSON data
-    append.appendData();
+    append.appendData(req.body);
 });
 
 // Delete user
