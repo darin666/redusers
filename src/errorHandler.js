@@ -1,8 +1,9 @@
 const errorHandler = (error, req, res, next) => {
-    if (error instanceof SyntaxError) {
+    console.log(error);
+    if (error instanceof SyntaxError || error instanceof TypeError) {
         res.status(400).send('Invalid request - JSON expected.');
     } else if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.message);
     } else {
         next();
     }
