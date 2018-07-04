@@ -1,15 +1,11 @@
 const fs = require('fs');
 
-var appendData = (req) => {
-    try {
-        var data = JSON.stringify(req);
-        var separator = ",\n";
-        data += separator;
-    } catch (err) {
-        throw err;
-    };
+const appendData = (dataObject) => {
+    var dataString = JSON.stringify(dataObject);
+    var separator = ",\n";
+    dataString += separator;
 
-    fs.appendFile('data.txt', data, 'utf8', (err) => {
+    fs.appendFile('data.txt', dataString, 'utf8', (err) => {
         if (err) throw err;
     });
 };
