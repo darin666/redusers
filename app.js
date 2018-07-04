@@ -28,8 +28,14 @@ app.use(errorHandler.errorHandler);
 
 // GET
 app.get('/count', (req, res, next) => {
-    const count = client.get('count');
-    res.send(count);
+    client.get('count', (error, reply) => {
+        if (error){
+            throw error;
+        } else if (reply === null) {
+            res.send('Count is empty.');
+        }
+        res.send(reply);
+    });
 });
 
 // POST
@@ -37,6 +43,11 @@ app.post('/track', (req, res, next) => {
     const isEmpty = _.isEmpty(req.body);
     const count = req.body.count;
     const isInteger = Number.isInteger(count);
+
+    // appending JSON data
+    console.log(count);
+    console.log(req.body);
+    append.appendData(req.body);
 
     if (isEmpty) {
         throw new Error('Recieved an empty object.');
@@ -47,15 +58,28 @@ app.post('/track', (req, res, next) => {
         (error, reply) => {
             if (error) {
                 throw error;
-            } console.log(reply);
-                res.sendStatus(200);
+            }
+            console.log(reply);
+            res.sendStatus(200);
         });
     }
-
-    // appending JSON data
-    append.appendData(req.body);
 });
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+
+// if (count != undefined) {
+//     client.incrby('count', count,
+//         (error, reply) => {
+//             if (error) {
+//                 throw error;
+//             }
+//             console.log(reply);
+//             res.sendStatus(200);
+//         });
+// } else if (count && !isInteger) {
+//     throw new Error('Count expects a number.');
+// } else if (isEmpty) {
+//     throw new Error('Recieved an empty object.');
+// }
