@@ -1,5 +1,5 @@
 {
-  "name": "track-count",
+  "name": "redusers",
   "version": "1.0.0",
   "description": "Simple Node.js and Redis app",
   "main": "app.js",
